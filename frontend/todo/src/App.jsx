@@ -1,8 +1,8 @@
 import { useState } from "react";
-import RegisterAgain from "./againRegister/RegisterAgain";
 import SignUpForm from "./components/SignUpForm";
 import VerifyOtpForm from "./components/VerifyOtpForm";
 import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
+import RegisterAgain from "./components/RegisterAgain";
 
 function App() {
   const [form, setForm] = useState({
