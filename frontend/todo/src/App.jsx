@@ -1,13 +1,8 @@
 import { useState } from "react";
-import {
-  FaCheckCircle,
-  FaEnvelope,
-  FaExclamationTriangle,
-  FaKey,
-  FaLock,
-  FaPhone,
-  FaUser,
-} from "react-icons/fa";
+import RegisterAgain from "./againRegister/RegisterAgain";
+import SignUpForm from "./components/SignUpForm";
+import VerifyOtpForm from "./components/VerifyOtpForm";
+import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 
 function App() {
   const [form, setForm] = useState({
@@ -96,83 +91,21 @@ function App() {
         ) : null}
 
         {step === "signup" && (
-          <form onSubmit={handleSignup} className="space-y-2">
-            <div className="flex items-center gap-2 border border-gray-300 px-3 py-2">
-              <FaUser />
-              <input
-                name="name"
-                placeholder="Name"
-                value={form.name}
-                onChange={handleChange}
-                required
-                className="w-full outline-none"
-              />
-            </div>
-            <div className="flex items-center gap-2 border border-gray-300 px-3 py-2">
-              <FaEnvelope />
-              <input
-                name="email"
-                type="email"
-                placeholder="Email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                className="w-full outline-none"
-              />
-            </div>
-            <div className="flex items-center gap-2 border border-gray-300 px-3 py-2">
-              <FaLock />
-              <input
-                name="password"
-                type="password"
-                placeholder="Password"
-                value={form.password}
-                onChange={handleChange}
-                required
-                className="w-full outline-none"
-              />
-            </div>
-            <div className="flex items-center gap-2 border border-gray-300 px-3 py-2">
-              <FaPhone />
-              <input
-                name="phone"
-                placeholder="Phone"
-                value={form.phone}
-                onChange={handleChange}
-                required
-                className="w-full outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-amber-500 px-3 py-2 text-white disabled:opacity-70"
-            >
-              {loading ? "Please wait..." : "Sign Up"}
-            </button>
-          </form>
+          <SignUpForm
+            form={form}
+            onChange={handleChange}
+            onSubmit={handleSignup}
+            loading={loading}
+          />
         )}
 
         {step === "verify" && (
-          <form onSubmit={handleVerify} className="space-y-2">
-            <div className="flex items-center gap-2 border border-gray-300 px-3 py-2">
-              <FaKey />
-              <input
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                placeholder="Enter OTP"
-                required
-                className="w-full outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-orange-500 px-3 py-2 text-white disabled:opacity-70"
-            >
-              {loading ? "Checking..." : "Verify OTP"}
-            </button>
-          </form>
+          <VerifyOtpForm
+            otp={otp}
+            onChange={(e) => setOtp(e.target.value)}
+            onSubmit={handleVerify}
+            loading={loading}
+          />
         )}
 
         {step === "done" && (
@@ -180,18 +113,14 @@ function App() {
             <div className="bg-green-50 px-3 py-2 text-sm text-green-700">
               Your account is verified.
             </div>
-            <button
-              type="button"
-              className="w-full bg-red-500 px-3 py-2 text-white"
-              onClick={() => {
+            <RegisterAgain
+              onReset={() => {
                 setStep("signup");
                 setOtp("");
                 setForm({ name: "", email: "", password: "", phone: "" });
                 setMessage("");
               }}
-            >
-              Register Again
-            </button>
+            />
           </div>
         )}
       </div>
