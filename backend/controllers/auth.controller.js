@@ -27,13 +27,13 @@ const signUp = async (req, res) => {
       otp: OTP,
       otpExpires: Date.now() + 2 * 60 * 1000,
     });
+    await user.save();
     sendEmail({
       email,
       subject: "Email verification",
       otp: OTP,
       template: emailVerification,
     });
-    await user.save();
     return res
       .status(200)
       .send({ message: "registration successfull. please verify your email" });
@@ -47,7 +47,7 @@ const signUp = async (req, res) => {
 const verifyOtp = async (req, res) => {
   try {
     const { otp, email } = req.body;
-    if (!otp) return res.status(400).send({ message: "name is required" });
+    if (!otp) return res.status(400).send({ message: "otp is required" });
     if (!email) return res.status(400).send({ message: "email is required" });
 
     const user = await userSchema.findOne({
@@ -63,7 +63,6 @@ const verifyOtp = async (req, res) => {
     user.otpExpires = null;
     await user.save();
 
-    await user.save();
     return res.status(200).send({ message: "verification successfull" });
   } catch (error) {
     console.log(error);
